@@ -1,7 +1,13 @@
+from django.contrib.auth import authenticate, login
+from django.contrib.auth.forms import UserCreationForm
+from django.shortcuts import redirect, render
+from django.views.generic import CreateView
 from rest_framework import viewsets, generics
 from rest_framework.permissions import *
 from rest_framework.response import Response
+from rest_framework.reverse import reverse_lazy
 from rest_framework.views import APIView
+from shop.templates import *
 
 from .permissions import IsAdminOrReadOnly
 from .serializers import *
@@ -42,9 +48,19 @@ class OrderStatusUpdate(generics.RetrieveUpdateAPIView):
     permission_classes = (IsAdminUser, )
 
 
-
-
-
+def signup(request):
+    if request.method == 'POST':
+        form = UserCreationForm(request.POST)
+        if form.is_valid():
+            form.save()
+            username = form.cleaned_data.get('username')
+            raw_password = form.cleaned_data.get('password1')
+            user = authenticate(username=username, password=raw_password)
+            login(request, user)
+            return redirect('accounts/profile/')
+    else:
+        form = UserCreationForm()
+    return render(request, 'signup.html', {'form': form})
 
 
 
