@@ -1,14 +1,12 @@
 from django.contrib.auth import authenticate, login
 from django.contrib.auth.forms import UserCreationForm
 from django.shortcuts import redirect, render
-from django.views.generic import CreateView
 from rest_framework import viewsets, generics
 from rest_framework.permissions import *
 from rest_framework.response import Response
 from rest_framework.reverse import reverse_lazy
 from rest_framework.views import APIView
 from shop.templates import *
-
 from .permissions import IsAdminOrReadOnly
 from .serializers import *
 
@@ -49,6 +47,7 @@ class OrderStatusUpdate(generics.RetrieveUpdateAPIView):
 
 
 def signup(request):
+    #функция регистрации
     if request.method == 'POST':
         form = UserCreationForm(request.POST)
         if form.is_valid():

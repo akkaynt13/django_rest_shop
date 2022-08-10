@@ -10,12 +10,20 @@ router.register(r'order', OrderViewSet)
 
 
 urlpatterns = [
-    path('admin/', admin.site.urls), #админка
-    path('', include(router.urls)), #отображение каталога, товаров и заказов
-    path('user_orders/', UserOrdersView.as_view({'get': 'list', 'post': 'create'})), #отображение заказов авторизованного пользователя+добавление
-    path('user_orders/<int:order_number>/', UserOrderView.as_view()), #отображение отдельного заказа по номеру заказа (не pk)
-    path('user_orders/update/<int:pk>/', OrderStatusUpdate.as_view()), #изменение статуса заказа админом, заказ по pk
-    path('auth/', include('rest_framework.urls'), name='login'),
+    #админка
+    path('admin/', admin.site.urls),
+    #отображение каталога, товаров и заказов
+    path('', include(router.urls)),
+    #отображение заказов авторизованного пользователя+добавление
+    path('user_orders/', UserOrdersView.as_view({'get': 'list', 'post': 'create'})),
+    #отображение отдельного заказа по номеру заказа (не pk)
+    path('user_orders/<int:order_number>/', UserOrderView.as_view()),
+    #изменение статуса заказа админом, заказ по pk
+    path('user_orders/update/<int:pk>/', OrderStatusUpdate.as_view()),
+    #auth/login
+    path('auth/', include('rest_framework.urls')),
+    #переопределение пути для отображения заказов пользователя после регистрации
     path('accounts/profile/', UserOrdersView.as_view({'get': 'list', 'post': 'create'})),
+    #регистрация
     path('register', signup)
 ]
