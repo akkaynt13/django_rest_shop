@@ -5,7 +5,7 @@ from django.db import models
 class Item(models.Model):
     name = models.CharField('имя', max_length=20, default='')
     price = models.PositiveIntegerField('цена', blank=True)
-    amount = models.PositiveIntegerField('количество на складе', blank=True)
+    amount = models.PositiveIntegerField(blank=True, verbose_name='количество на складе')
 
     def __str__(self):
         return self.name

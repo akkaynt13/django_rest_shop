@@ -8,6 +8,10 @@ router = routers.DefaultRouter()
 router.register(r'item', ItemViewSet)
 router.register(r'order', OrderViewSet)
 
+api_urls = [
+    path('user/', include('shop.urls'), name='users'),
+]
+
 
 urlpatterns = [
     #админка
@@ -24,6 +28,6 @@ urlpatterns = [
     path('auth/', include('rest_framework.urls')),
     #переопределение пути для отображения заказов пользователя после регистрации
     path('accounts/profile/', UserOrdersView.as_view({'get': 'list', 'post': 'create'})),
-    #регистрация
-    path('register', signup)
+    # апи
+    path('api/', include(api_urls)),
 ]
